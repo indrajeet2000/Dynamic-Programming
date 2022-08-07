@@ -1,3 +1,6 @@
+
+
+
 class Solution
 {
     public:
@@ -37,6 +40,9 @@ class Solution
 
 
 or*************************************************************************************************************************************************
+
+
+
 
 //{ Driver Code Starts
 #include<bits/stdc++.h>
@@ -110,3 +116,33 @@ int main()
 	return 0;
 }
 // } Driver Code Ends
+
+
+
+
+******************************************************************************************************************************************************
+
+
+
+
+int ks(int cap, int wt[], int val[], int n, vector<vector<int>> &dp){
+        if(n==0 || cap==0){return 0;}
+        
+        if(dp[n][cap]!=-1){return dp[n][cap];}  //lookup
+        
+        if(wt[n-1]>cap){        //weight of element more than capacity of bag
+            dp[n][cap] = ks(cap, wt, val, n-1, dp); //excluded  //updating
+        }
+        else{
+            dp[n][cap] = max(ks(cap, wt, val, n-1, dp),
+            val[n-1] + ks(cap-wt[n-1], wt, val, n-1, dp));  //updating
+        }
+        return dp[n][cap];
+    }
+    
+    int knapSack(int W, int wt[], int val[], int n) 
+    { 
+       // Your code here
+       vector<vector<int>> dp(n+1, vector<int> (W+1, -1));
+       return ks(W, wt, val, n, dp);
+    }
